@@ -1,7 +1,7 @@
-# Tauri + Svelte + Typescript
+# AI-Quack
 
-This template should help get you started developing with Tauri, Svelte and TypeScript in Vite.
+## Your AI powered Duck companion for debugging
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+<picture>
+    <img src="./public/ai-quacker_1.png" alt="Quacker, Ai-Quack's pet">
+</picture>
