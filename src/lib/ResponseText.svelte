@@ -1,4 +1,4 @@
-<p class="text-Text">
+<p class="text-cat-text">
   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt soluta cum,
   voluptatem cumque similique, non quod omnis quibusdam sed accusamus aut
   officiis asperiores esse? Corporis modi animi impedit accusamus maiores. Lorem
