@@ -3,17 +3,22 @@
   import TextForm from './lib/TextForm.svelte';
 
   import { invoke } from '@tauri-apps/api/tauri';
+  import { Role, type Message } from './lib/types';
 
-  let responses: string[] = [
-    'Quacker: Hi! My name is Quacker. Can I help you with a programming problem?',
+  let responses: Message[] = [
+    {
+      role: Role.System,
+      message:
+        'Hi! My name is Quacker. Can I help you with a programming problem?',
+    },
   ];
   let getTextResponse = async (event) => {
     let userPrompt = event.target[0].value;
-    responses = [...responses, `You: ${userPrompt}`];
+    responses = [...responses, { role: Role.User, message: userPrompt }];
     let response: string = await invoke('get_text_response', {
       userPrompt,
     });
-    responses = [...responses, `Quacker: ${response}`];
+    responses = [...responses, { role: Role.System, message: response }];
   };
 </script>
 
