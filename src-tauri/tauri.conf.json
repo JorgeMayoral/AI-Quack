@@ -7,8 +7,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "rubber-ducky-ai",
-    "version": "0.0.0"
+    "productName": "ai-quack",
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -27,7 +27,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "dev.yorch.ai-quack",
       "targets": "all"
     },
     "security": {
@@ -40,7 +40,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "rubber-ducky-ai",
+        "title": "AI Quack",
         "width": 800,
         "height": 600
       }
