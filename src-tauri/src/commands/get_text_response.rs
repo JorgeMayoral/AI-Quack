@@ -1,4 +1,7 @@
+use secrecy::{ExposeSecret, Secret};
 use serde::{Deserialize, Serialize};
+
+use crate::configuration::Configuration;
 
 #[derive(Debug, Deserialize)]
 struct Response {
@@ -56,25 +59,33 @@ impl RequestBody {
 }
 
 #[tauri::command]
-pub async fn get_text_response(user_prompt: String) -> String {
-    let response = match make_request(user_prompt).await {
+pub async fn get_text_response(
+    user_prompt: String,
+    config: tauri::State<'_, Configuration>,
+) -> Result<String, ()> {
+    let api_key = config.api_key().clone();
+    let response = match make_request(user_prompt, api_key).await {
         Ok(response) => response,
         Err(error) => {
-            println!("Error: {}", error);
-            return "ERROR".into();
+            dbg!("Error: {}", error);
+            return Ok("ERROR".into());
         }
     };
-    response.choices[0].message.content.clone()
+    let text = response.choices[0].message.content.clone();
+    Ok(text)
 }
 
-async fn make_request(user_prompt: String) -> Result<Response, reqwest::Error> {
+async fn make_request(
+    user_prompt: String,
+    api_key: Secret<String>,
+) -> Result<Response, reqwest::Error> {
     let body = RequestBody::new(user_prompt);
     let response = reqwest::Client::new()
         .post("https://api.openai.com/v1/chat/completions")
         .header("Content-Type", "application/json")
         .header(
             "Authorization",
-            "Bearer <openai-api-key>", // TODO: Get API key from config
+            &format!("Bearer {}", api_key.expose_secret()),
         )
         .json(&serde_json::json!(body))
         .send()
