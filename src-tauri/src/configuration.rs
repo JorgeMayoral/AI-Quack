@@ -23,12 +23,14 @@ impl Configuration {
 
     pub fn load_from_file() -> Result<Self, Box<dyn std::error::Error>> {
         let config_path = get_configuration_dir().join("config.json");
+        tracing::info!("Loading configuration from {:?}", config_path);
         let config_file = std::fs::read_to_string(config_path)?;
         let config: Self = serde_json::from_str(&config_file)?;
         Ok(config)
     }
 
     pub fn save_to_file(&self) -> Result<(), Box<dyn std::error::Error>> {
+        tracing::info!("Saving configuration to {:?}", get_configuration_dir());
         let config_file = ConfigurationFile::new(self.api_key().expose_secret().to_owned());
         let config_file = serde_json::to_string_pretty(&config_file)?;
         std::fs::create_dir_all(get_configuration_dir())?;

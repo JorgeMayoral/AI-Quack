@@ -4,13 +4,33 @@ use serde::{Deserialize, Serialize};
 use crate::configuration::Configuration;
 
 #[derive(Debug, Deserialize)]
-struct Response {
+struct ResponseBody {
     id: String,
     object: String,
     created: u32,
     model: String,
     usage: Usage,
     choices: Vec<Choice>,
+}
+
+impl ResponseBody {
+    pub fn new(
+        id: String,
+        object: String,
+        created: u32,
+        model: String,
+        usage: Usage,
+        choices: Vec<Choice>,
+    ) -> Self {
+        Self {
+            id,
+            object,
+            created,
+            model,
+            usage,
+            choices,
+        }
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -20,11 +40,31 @@ struct Usage {
     total_tokens: u32,
 }
 
+impl Usage {
+    pub fn new(prompt_tokens: u32, completion_tokens: u32, total_tokens: u32) -> Self {
+        Self {
+            prompt_tokens,
+            completion_tokens,
+            total_tokens,
+        }
+    }
+}
+
 #[derive(Debug, Deserialize)]
 struct Choice {
     message: Message,
     finish_reason: String,
     index: u32,
+}
+
+impl Choice {
+    pub fn new(message: Message, finish_reason: String, index: u32) -> Self {
+        Self {
+            message,
+            finish_reason,
+            index,
+        }
+    }
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -67,7 +107,7 @@ pub async fn get_text_response(
     let response = match make_request(user_prompt, api_key).await {
         Ok(response) => response,
         Err(error) => {
-            dbg!("Error: {}", error);
+            tracing::error!("Error while making request to OpenAI API: {}", error);
             return Ok("ERROR".into());
         }
     };
@@ -78,8 +118,9 @@ pub async fn get_text_response(
 async fn make_request(
     user_prompt: String,
     api_key: Secret<String>,
-) -> Result<Response, reqwest::Error> {
+) -> Result<ResponseBody, reqwest::Error> {
     let body = RequestBody::new(user_prompt);
+    tracing::info!("Sending request to OpenAI API");
     let response = reqwest::Client::new()
         .post("https://api.openai.com/v1/chat/completions")
         .header("Content-Type", "application/json")
@@ -91,9 +132,11 @@ async fn make_request(
         .send()
         .await?
         .error_for_status()?
-        .json::<Response>()
+        .json::<ResponseBody>()
         .await?;
 
+    tracing::info!("Request to OpenAI API completed");
+    tracing::debug!("Response: {:?}", response);
     Ok(response)
 }
 

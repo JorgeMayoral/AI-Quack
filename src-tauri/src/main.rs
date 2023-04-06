@@ -3,20 +3,28 @@
 
 use commands::get_text_response;
 use configuration::Configuration;
+use tracing::Level;
 
 mod commands;
 mod configuration;
 
 fn main() {
+    tracing_subscriber::fmt()
+        .with_max_level(Level::DEBUG)
+        .init();
+
     let configuration = match Configuration::load_from_file() {
         Ok(configuration) => configuration,
-        Err(_) => {
+        Err(e) => {
+            tracing::error!("Error while loading configuration: {}", e);
+            tracing::warn!("No configuration file found, creating a new one");
             let configuration = Configuration::new("".to_owned());
             configuration.save_to_file().unwrap();
             configuration
         }
     };
 
+    tracing::info!("Launching application");
     tauri::Builder::default()
         .manage(configuration)
         .invoke_handler(tauri::generate_handler![get_text_response])
