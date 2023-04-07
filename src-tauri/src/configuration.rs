@@ -37,6 +37,14 @@ impl Configuration {
         std::fs::write(get_configuration_dir().join("config.json"), config_file)?;
         Ok(())
     }
+
+    pub fn has_api_key(&self) -> bool {
+        !self.api_key().expose_secret().is_empty()
+    }
+
+    pub fn set_api_key(&mut self, api_key: String) {
+        self.api_key = Secret::new(api_key);
+    }
 }
 
 #[derive(Debug, Serialize)]

@@ -1,0 +1,14 @@
+use std::sync::Mutex;
+
+use serde::Serialize;
+
+use crate::configuration::Configuration;
+
+#[derive(Serialize)]
+pub struct NeedApiKey(bool);
+
+#[tauri::command]
+pub fn check_api_key(config: tauri::State<'_, Mutex<Configuration>>) -> NeedApiKey {
+    let has_api_key = config.lock().unwrap().has_api_key();
+    NeedApiKey(!has_api_key)
+}

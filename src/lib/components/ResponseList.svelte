@@ -1,7 +1,7 @@
 <script lang="ts">
   import { afterUpdate } from 'svelte';
   import ResponseText from './ResponseText.svelte';
-  import { Role, type Message } from './types';
+  import { Role, type Message } from '../types';
 
   export let responses: Message[] = [];
 

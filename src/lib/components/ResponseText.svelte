@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Role } from './types';
+  import { Role } from '../types';
 
   export let role: Role;
   export let text: string = '';

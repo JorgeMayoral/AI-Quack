@@ -1,3 +1,5 @@
+use std::sync::Mutex;
+
 use secrecy::{ExposeSecret, Secret};
 use serde::{Deserialize, Serialize};
 
@@ -101,9 +103,9 @@ impl RequestBody {
 #[tauri::command]
 pub async fn get_text_response(
     user_prompt: String,
-    config: tauri::State<'_, Configuration>,
+    config: tauri::State<'_, Mutex<Configuration>>,
 ) -> Result<String, ()> {
-    let api_key = config.api_key().clone();
+    let api_key = config.lock().unwrap().api_key().clone();
     let response = match make_request(user_prompt, api_key).await {
         Ok(response) => response,
         Err(error) => {

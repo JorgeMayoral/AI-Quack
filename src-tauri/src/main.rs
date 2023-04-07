@@ -1,7 +1,11 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::sync::Mutex;
+
+use commands::check_api_key;
 use commands::get_text_response;
+use commands::set_api_key;
 use configuration::Configuration;
 use tracing::Level;
 
@@ -23,11 +27,16 @@ fn main() {
             configuration
         }
     };
+    let configuration = Mutex::new(configuration);
 
     tracing::info!("Launching application");
     tauri::Builder::default()
         .manage(configuration)
-        .invoke_handler(tauri::generate_handler![get_text_response])
+        .invoke_handler(tauri::generate_handler![
+            get_text_response,
+            check_api_key,
+            set_api_key
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
