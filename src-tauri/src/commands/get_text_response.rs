@@ -7,16 +7,16 @@ use crate::configuration::Configuration;
 
 #[derive(Debug, Deserialize)]
 struct ResponseBody {
-    id: String,
-    object: String,
-    created: u32,
-    model: String,
-    usage: Usage,
+    _id: String,
+    _object: String,
+    _created: u32,
+    _model: String,
+    _usage: Usage,
     choices: Vec<Choice>,
 }
 
 impl ResponseBody {
-    pub fn new(
+    pub fn _new(
         id: String,
         object: String,
         created: u32,
@@ -25,11 +25,11 @@ impl ResponseBody {
         choices: Vec<Choice>,
     ) -> Self {
         Self {
-            id,
-            object,
-            created,
-            model,
-            usage,
+            _id: id,
+            _object: object,
+            _created: created,
+            _model: model,
+            _usage: usage,
             choices,
         }
     }
@@ -37,17 +37,17 @@ impl ResponseBody {
 
 #[derive(Debug, Deserialize)]
 struct Usage {
-    prompt_tokens: u32,
-    completion_tokens: u32,
-    total_tokens: u32,
+    _prompt_tokens: u32,
+    _completion_tokens: u32,
+    _total_tokens: u32,
 }
 
 impl Usage {
-    pub fn new(prompt_tokens: u32, completion_tokens: u32, total_tokens: u32) -> Self {
+    pub fn _new(prompt_tokens: u32, completion_tokens: u32, total_tokens: u32) -> Self {
         Self {
-            prompt_tokens,
-            completion_tokens,
-            total_tokens,
+            _prompt_tokens: prompt_tokens,
+            _completion_tokens: completion_tokens,
+            _total_tokens: total_tokens,
         }
     }
 }
@@ -55,16 +55,16 @@ impl Usage {
 #[derive(Debug, Deserialize)]
 struct Choice {
     message: Message,
-    finish_reason: String,
-    index: u32,
+    _finish_reason: String,
+    _index: u32,
 }
 
 impl Choice {
-    pub fn new(message: Message, finish_reason: String, index: u32) -> Self {
+    pub fn _new(message: Message, finish_reason: String, index: u32) -> Self {
         Self {
             message,
-            finish_reason,
-            index,
+            _finish_reason: finish_reason,
+            _index: index,
         }
     }
 }
