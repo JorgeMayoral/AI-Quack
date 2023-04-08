@@ -5,7 +5,7 @@ use directories::ProjectDirs;
 use secrecy::{ExposeSecret, Secret};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct Configuration {
     api_key: Secret<String>,
 }

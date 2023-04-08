@@ -9,8 +9,11 @@ use commands::set_api_key;
 use configuration::Configuration;
 use tracing::Level;
 
+use crate::open_ai_client::HttpClient;
+
 mod commands;
 mod configuration;
+mod open_ai_client;
 
 fn main() {
     tracing_subscriber::fmt()
@@ -28,10 +31,12 @@ fn main() {
         }
     };
     let configuration = Mutex::new(configuration);
+    let http_client = HttpClient::new();
 
     tracing::info!("Launching application");
     tauri::Builder::default()
         .manage(configuration)
+        .manage(http_client)
         .invoke_handler(tauri::generate_handler![
             get_text_response,
             check_api_key,
