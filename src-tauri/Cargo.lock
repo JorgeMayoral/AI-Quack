@@ -2142,6 +2142,7 @@ dependencies = [
 name = "rubber-ducky-ai"
 version = "0.0.0"
 dependencies = [
+ "anyhow",
  "directories",
  "reqwest",
  "secrecy",
