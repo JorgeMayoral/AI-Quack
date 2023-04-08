@@ -11,6 +11,7 @@
   });
 
   let needApiKey: boolean;
+  let loading: boolean = false;
   let responses: Message[] = [
     {
       role: Role.System,
@@ -19,12 +20,14 @@
     },
   ];
   const getTextResponse = async ({ detail }) => {
+    loading = true;
     const userPrompt = detail.text;
     responses = [...responses, { role: Role.User, message: userPrompt }];
     const response: string = await invoke('get_text_response', {
       userPrompt,
     });
     responses = [...responses, { role: Role.System, message: response }];
+    loading = false;
   };
 
   const sendApiKey = async (event) => {
@@ -41,6 +44,6 @@
     <ApiKeyInput on:submit={sendApiKey} />
   {:else}
     <ResponseList {responses} />
-    <TextForm on:submit={getTextResponse} />
+    <TextForm on:submit={getTextResponse} {loading} />
   {/if}
 </main>
