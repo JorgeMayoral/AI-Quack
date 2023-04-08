@@ -1,10 +1,25 @@
-<form on:submit|preventDefault>
+<script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+
+  const distpatch = createEventDispatcher();
+
+  let inputField;
+
+  const handleSubmit = (e: Event) => {
+    const text = e.target[0].value;
+    distpatch('submit', { text });
+    inputField.value = '';
+  };
+</script>
+
+<form on:submit|preventDefault={handleSubmit}>
   <div
     class="w-full mb-4 border rounded-lg bg-cat-surface1 border-cat-surface2"
   >
     <div class="px-4 py-2 rounded-t-lg bg-cat-surface0">
       <label for="comment" class="sr-only">Your comment</label>
       <textarea
+        bind:this={inputField}
         id="comment"
         rows="4"
         class="w-full px-0 text-sm border-0 bg-cat-surface0 focus:ring-transparent text-cat-text placeholder-cat-subtext1"

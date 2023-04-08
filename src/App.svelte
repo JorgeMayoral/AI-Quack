@@ -18,8 +18,8 @@
         'Hi! My name is Quacker. Can I help you with a programming problem?',
     },
   ];
-  const getTextResponse = async (event) => {
-    const userPrompt = event.target[0].value;
+  const getTextResponse = async ({ detail }) => {
+    const userPrompt = detail.text;
     responses = [...responses, { role: Role.User, message: userPrompt }];
     const response: string = await invoke('get_text_response', {
       userPrompt,
