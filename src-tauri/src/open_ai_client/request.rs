@@ -5,6 +5,7 @@ use super::{message::Message, prompts::generate_setup_prompts};
 #[derive(Debug, Serialize)]
 pub struct RequestBody {
     model: String,
+    temperature: f32,
     messages: Vec<Message>,
 }
 
@@ -16,6 +17,7 @@ impl RequestBody {
 
         Self {
             model: "gpt-3.5-turbo".into(),
+            temperature: 0.5,
             messages,
         }
     }
