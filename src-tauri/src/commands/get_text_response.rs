@@ -2,6 +2,7 @@ use std::sync::Mutex;
 
 use crate::{configuration::Configuration, open_ai_client::HttpClient};
 
+#[tracing::instrument(name = "Getting text response from OpenAI", skip(config, client))]
 #[tauri::command]
 pub async fn get_text_response(
     user_prompt: String,

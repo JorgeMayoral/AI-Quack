@@ -16,9 +16,7 @@ mod configuration;
 mod open_ai_client;
 
 fn main() {
-    tracing_subscriber::fmt()
-        .with_max_level(Level::DEBUG)
-        .init();
+    tracing_subscriber::fmt().with_max_level(Level::INFO).init();
 
     let configuration = match Configuration::load_from_file() {
         Ok(configuration) => configuration,
