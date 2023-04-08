@@ -1,10 +1,12 @@
 [package]
 name = "rubber-ducky-ai"
 version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
+description = "AI assistant for developers"
+authors = ["Jorge Mayoral Álvarez <mayoralalvarezj@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/JorgeMayoral/AI-Quack"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/JorgeMayoral/AI-Quack"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
